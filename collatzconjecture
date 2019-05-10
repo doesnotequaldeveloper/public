@@ -1,0 +1,108 @@
+<h2> The Collatz Conjecture </h2>
+
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>  <!-- Plotly.js -->
+
+    <style>
+        div.c {
+          text-indent: 2%;
+        }
+        div.b {
+          word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<div> 
+    <p> The Collatz Conjecture states that a series, starting with any positive integer, converges to a sequence of 4, 2, 1, 4, for: <br/><br/> 
+
+        a<sub>n</sub> = {1/2 a<sub>n-1</sub> for a<sub>n-1</sub> even </p>
+</div>
+
+<div class="c"><p>3a<sub>n-1</sub>+1 for a<sub>n-1</sub> odd </p></div> 
+<div id="innerHTMLstartval" type="text/javascript"><h4>Evaluate the Collatz conjecture</h4></div>
+<div class="b" id="innerHTML2" type="text/javascript"></div>
+<div id="arrlength" type="text/javascript"></div>
+
+<input type="button" onclick="collatzfunc()" value="Enter start value" /> 
+
+<script type="text/javascript">
+	function collatzfunc() {
+    
+    	var startvalue = prompt("Enter starting value");		// run a prompt box to collect the user's name
+    	var htmlsection = document.getElementById('innerHTMLstartval'); 
+    	htmlsection.innerHTML = 'This is your start value: ' + startvalue; 
+    	
+		let startingval = Math.floor(startvalue);
+        let eachiteration =[0];
+        eachiteration[0]=startingval
+
+	    let i = 0;
+	    do {
+            if(eachiteration[i]%2===0){
+                eachiteration.push(eachiteration[i]/2);
+        }  
+        else{
+            eachiteration.push(3*eachiteration[i]+1);
+        }
+            i++;
+	    } while (eachiteration[i-1]!==1&&eachiteration[i-2]!==2&&eachiteration[i-3]!==4);
+    
+    	var htmlsection2 = document.getElementById('innerHTML2');          
+    	htmlsection2.innerHTML = 'Series: ' +eachiteration;		
+
+    	var htmlarrlength = document.getElementById('arrlength');          
+    	htmlarrlength.innerHTML = 'This evaluation converged in: '+ eachiteration.length +' iterations.' ;	   		
+	}
+</script>
+
+<body>
+  <div id="myDiv"></div>
+
+    <script>
+        let iterationcountx=[]
+        let iterationcounty=[]
+        let iterationplottype=[]
+        let startingval = 1;
+        let eachiteration =[0];
+        
+        do {
+            eachiteration[0]=startingval
+
+            let i = 0;
+                do {
+                    if(eachiteration[i]%2===0){
+                        eachiteration.push(eachiteration[i]/2);
+                    }  
+                    else{
+                        eachiteration.push(3*eachiteration[i]+1);
+                    }
+                    i++;
+                } while (eachiteration[i-1]!==1&&eachiteration[i-2]!==2&&eachiteration[i-3]!==4);
+
+            iterationcountx.push(startingval);
+            iterationcounty.push(eachiteration.length) 
+            startingval++; 
+            eachiteration=[0];
+        } while (startingval<500);
+
+        var data = {
+          x: iterationcountx,
+          y: iterationcounty,
+          type: 'scatter',
+        };
+
+        var layout = {
+          title: 'Convergence Iterations vs Starting Value',
+          xaxis: {
+            title: 'Starting Value'
+          },
+          yaxis: {
+            title: 'Iterations'
+          }
+        };
+
+        Plotly.newPlot('myDiv',[data],layout);
+
+    </script>
+</body>
